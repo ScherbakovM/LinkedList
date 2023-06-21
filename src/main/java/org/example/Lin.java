@@ -1,95 +1,61 @@
 package org.example;
 
-import java.util.ArrayList;
-
 public class Lin<T> {
-    private CustomNode head;
-    private CustomNode tail;
+    public CustomNode<T> head;
+    public CustomNode<T> tail;
     long size = 0;
 
-    public Lin( ) {
-        CustomNode head;
-        CustomNode tail;
+    public Lin() {
+        CustomNode<T> head;
+        CustomNode<T> tail;
     }
 
-    public Lin add(CustomNode node) {
 
+    public Lin<T> add(T value) {
+        CustomNode<T> node = new CustomNode<T>(value);
+        CustomNode<T> temp = this.tail;
         if (this.head == null || this.tail == null) {
             this.head = node;
             this.tail = node;
             size++;
-            return this;
         } else {
-            this.tail.next = node;
-            this.tail = node;
+            tail = node;
+            tail.previous = temp;
+            temp.next = tail;
             size++;
-            return this;
         }
+        return this;
     }
 
-    public Lin addLast(T value) {
-        CustomNode node = new CustomNode(value);
-        if (this.head == null || this.tail == null) {
-            this.head = node;
-            this.tail = node;
-            size++;
-            return this;
-        } else {
-            this.tail.next = node;
-            this.tail = node;
-            size++;
-            return this;
+    public void reverse() {
+        CustomNode<T> temp = tail.next; //  null для head.prev
+        //меняем местами первый и последний элементы
+        head = tail; // 5
+        head.next = tail.previous; //4 # ССылка на prev.tail
+        head.previous = temp; //null
+
+        tail = head.next; // 4 #
+        temp = tail.previous; // следующий tail 3
+
+        while (temp != null) {
+            tail.previous = tail.next; // 5
+            tail.next = temp;
+            tail = temp;
+            temp = temp.previous;
         }
+
+        temp = tail.previous;
+        tail.previous = tail.next; // 5
+        tail.next = temp;
     }
 
-    public Lin addFirst(T value) {
-        CustomNode node = new CustomNode(value);
-        if (this.head == null || this.tail == null) {
-            this.head = node;
-            this.tail = node;
-            size++;
-            return this;
-        } else {
-            node.next = head;
-            head = node;
-            size++;
-            return this;
-        }
-    }
-
-    public Lin dell(int index) {
-        return  this;
-    }
-
-    public CustomNode getHead( ) {
-        return head;
-    }
-
-    public CustomNode getTail( ) {
-        return tail;
-    }
-
-
-    public CustomNode getIndex(int index) {
-        CustomNode currentNode = head;
-        int count  = 0;
-        while (currentNode != null) {
-            if( count == index){
-                return currentNode;
-            } else {
-                currentNode = currentNode.next;
-                count++;
-            }
-        }
-        return currentNode;
-    }
-
-    public void print( ) {
-        CustomNode currentNode = head;
+    public void print() {
+        CustomNode<T> currentNode = this.head;
         while (currentNode != null) {
             System.out.println(currentNode.getValue());
             currentNode = currentNode.next;
         }
     }
+
 }
 

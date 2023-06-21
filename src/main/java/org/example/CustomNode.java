@@ -2,19 +2,17 @@ package org.example;
 
 public class CustomNode<T> {
     T value;
-    CustomNode next;
+    public CustomNode<T> next;
+    public CustomNode<T> previous;
 
     public CustomNode(T value) {
         this.value = value;
         this.next = null;
+        this.previous = null;
     }
 
-
-    public T getValue( ) {
-        this.value = value;
-        this.next = next;
-
-        return value;
+    public T getValue() {
+        return this.value;
     }
 
 }
