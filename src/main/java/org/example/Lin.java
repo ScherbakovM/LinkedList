@@ -29,24 +29,31 @@ public class Lin<T> {
 
     public void reverse() {
         CustomNode<T> temp = tail.next; //  null для head.prev
-        //меняем местами первый и последний элементы
-        head = tail; // 5
-        head.next = tail.previous; //4 # ССылка на prev.tail
-        head.previous = temp; //null
 
-        tail = head.next; // 4 #
-        temp = tail.previous; // следующий tail 3
+        if (this.size > 1) {
+            //меняем местами первый и последний элементы
+            head = tail; // 5
+            head.next = tail.previous; //4 # ССылка на prev.tail
+            head.previous = temp; //null
 
-        while (temp != null) {
+            tail = head.next; // 4 #
+            temp = tail.previous; // следующий tail 3
+
+            while (temp != null) {
+                tail.previous = tail.next; // 5
+                tail.next = temp;
+                tail = temp;
+                temp = temp.previous;
+            }
+
+            temp = tail.previous;
             tail.previous = tail.next; // 5
             tail.next = temp;
-            tail = temp;
-            temp = temp.previous;
         }
-
-        temp = tail.previous;
-        tail.previous = tail.next; // 5
-        tail.next = temp;
+        else {
+            System.err.println("size does not allow reverse the list");
+            System.err.println("size : " + size );
+        }
     }
 
     public void print() {
